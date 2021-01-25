@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """Lockboxes task for project 0x00-lockboxes"""
+
+
 def canUnlockAll(boxes):
     '''method to determine if all boxes can be opened'''
     if boxes is None:
@@ -10,6 +12,7 @@ def canUnlockAll(boxes):
     if False in boxes_open:
         return False
     return True
+
 
 def open_box(box, boxes, boxes_open):
     '''method to open boxes'''
