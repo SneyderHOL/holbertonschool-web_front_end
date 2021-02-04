@@ -72,8 +72,8 @@ a:active {
 
 .container {
     width: 960px;
-    display: flex;
-    justify-content: space-between;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 :root {
