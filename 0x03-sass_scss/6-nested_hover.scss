@@ -2,7 +2,7 @@
  text color #00FF00 when user hover button tags */
 button {
     color: #FF0000;
-    :hover {
+    &:hover {
 	color: #00FF00;
     }
 }
