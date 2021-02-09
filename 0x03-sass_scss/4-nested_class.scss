@@ -1,0 +1,8 @@
+/* assign text color #3D3D3D to elements inside body tag
+ text color #FF0000 to any elemenst of class .red inside body tag */
+body {
+    color: #3D3D3D;
+    .red {
+	color: #FF0000;
+    }
+}
