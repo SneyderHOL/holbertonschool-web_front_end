@@ -238,6 +238,12 @@ ul.row {
   display: flex;
 }
 
+.nav .nav-item {
+  font-family: var(--nav-item-font-family);
+  font-weight: var(--nav-item-font-weight);
+  font-size: var(--nav-item-font-size);
+}
+
 .nav .nav-item + .nav-item{
   font-family: var(--nav-item-font-family);
   font-weight: var(--nav-item-font-weight);
