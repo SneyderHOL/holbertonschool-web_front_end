@@ -598,7 +598,6 @@ ul.row {
 /* Post
     ============================= */
 
-
 .post {
   display: flex;
 }
@@ -608,5 +607,6 @@ ul.row {
 }
 
 .post-aside {
+  order: -1;
   min-width: 20%;
 }
