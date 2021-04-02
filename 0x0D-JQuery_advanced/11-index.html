@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+
+    <meta charset="utf-8" />
+    <title>Task 0</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function() {
+        function addPostRow(data) {
+          const paragraph = $('<p></p>').append($('<span></span>').text(`Post created with id ${data.id}, title: ${data.title}, author: ${data.author}`));
+          $('body form').after(paragraph);
+        }
+        function listPosts() {
+          const url = "http://localhost:3000/posts";
+          let request = $.get(url, function(data, status, response){
+            if (response.status == 200) {
+              data.forEach(element => {
+                addPostRow(element);
+              });
+            }
+          }).fail(function(){
+            alert('Server Error');
+          });
+        }
+        function buildForm() {
+          const formElement = $('<form></form>').append($('<div><label for="author">Author</label>\
+                                                        <input type="text" name="author" id="author"></div>\
+                                                        <div><label for="title">Title</label>\
+                                                        <textarea name="title" id="title"></textarea></div>'),
+                                                        $('<input type="submit" formaction="">'));
+          formElement.submit(function(event){
+            event.preventDefault();
+            sendForm();
+          });
+          $('body').append(formElement);
+        }
+        function sendForm(){
+          $('form').after('<p>About to send the query to the API</p>');
+          const data = {
+            title: $('textarea').first().val(),
+            author: $('input').first().val()
+          };
+          const url = "http://localhost:3000/posts";
+          let request = $.ajax({
+            url: url,
+            method: "POST",
+            data: data,
+            dataType: "json"
+          });
+          request.done(function( msg ) {
+            $('p').first().remove();
+            addPostRow(msg);
+          });
+          request.fail(function( jqXHR, textStatus ) {
+            alert("Error sending the POST query");
+          });
+        }
+        listPosts();
+        buildForm();
+      });
+    </script>
+  </head>
+
+  <body>
+
+  </body>
+
+</html>
