@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script>
+      const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+      function getCartFromStorage() {
+        const cart = sessionStorage.cart;
+        if (cart) {
+          const cartObject = JSON.parse(cart);
+          return cartObject;
+        }
+        return {};
+      }
+      function addItemToCart(item) {
+        const cartObject = getCartFromStorage();
+        if (cartObject[item]) {
+          cartObject[item]++;
+        } else {
+          cartObject[item] = 1;
+        }
+        sessionStorage.cart = JSON.stringify(cartObject);
+        displayCart();
+      }
+      function removeItemfromCart(item) {
+        const cartObject = getCartFromStorage();
+        if (cartObject[item]) {
+          delete cartObject[item];
+          sessionStorage.cart = JSON.stringify(cartObject);
+        }
+        displayCart();
+      }
+      function clearCart() {
+        sessionStorage.clear();
+        displayCart();
+      }
+      function createStore() {
+        const body = document.querySelector('body');
+        const h2Element = document.createElement('h2');
+        h2Element.textContent = 'Available products:';
+        const ulElement = document.createElement('ul');
+        body.appendChild(h2Element);
+        body.appendChild(ulElement);
+        for (let i = 0; i < availableItems.length; i++) {
+          const listItem = document.createElement('li');
+          listItem.textContent = availableItems[i];
+          listItem.onclick = function() {
+            addItemToCart(availableItems[i]);
+          };
+          ulElement.appendChild(listItem);
+        }
+      }
+      function displayCart() {
+        const body = document.querySelector('body');
+        let h2Element = document.getElementById('cartHeader');
+        if (!h2Element) {
+          h2Element = document.createElement('h2');
+          h2Element.id = 'cartHeader';
+          h2Element.textContent = 'Your cart:';
+          body.appendChild(h2Element);
+        }
+        let divELement = document.querySelector('div');
+        if (divELement) {
+          divELement.innerHTML = '';
+        } else {
+          divELement = document.createElement('div');
+          body.appendChild(divELement);
+        }
+        updateCart();
+      }
+      function updateCart() {
+        const divELement = document.querySelector('div');
+        const ulElement = document.createElement('ul');
+        divELement.appendChild(ulElement);
+        const cartObject = getCartFromStorage();
+        console.log(cartObject, cartObject.length);
+        if (JSON.stringify(cartObject) == '{}') {
+          const itemList = document.createElement('li');
+          itemList.textContent = 'Your cart is empty';
+          ulElement.appendChild(itemList);
+        } else {
+          const clearItem = document.createElement('li');
+          clearItem.textContent = 'Clear my cart';
+          clearItem.onclick = function() {
+            clearCart();
+          };
+          ulElement.appendChild(clearItem);
+          for (let key in cartObject) {
+            const item = document.createElement('li');
+            const linkElement = document.createElement('a');
+            linkElement.textContent = "(remove)";
+            linkElement.onclick = function(){
+              removeItemfromCart(key);
+            };
+            item.innerHTML = key + " x " + cartObject[key] + " ";
+            item.appendChild(linkElement);
+            ulElement.appendChild(item);
+          }
+        }
+      }
+      window.addEventListener('load', function () {
+        if (typeof(Storage) !== "undefined") {
+          createStore();
+          displayCart();
+        } else {
+          alert('Sorry, your browser does not support Web storage. Try again with a better one');
+        }
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
