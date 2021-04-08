@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script>
+      const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+      function addItemToCart(item) {
+        localStorage.setItem(item, true);
+      }
+      function createStore() {
+        const body = document.querySelector('body');
+        const ulElement = document.createElement('ul');
+        // console.log(body);
+        body.appendChild(ulElement);
+        for (let i = 0; i < availableItems.length; i++) {
+          const listItem = document.createElement('li');
+          listItem.textContent = availableItems[i];
+          listItem.onclick = function() {
+            addItemToCart(availableItems[i]);
+          };
+          ulElement.appendChild(listItem);
+        }
+      }
+      function displayCart() {
+        const size = localStorage.length;
+        if (size== 0) {
+          return;
+        }
+        const paragraphElement = document.createElement('p');
+        paragraphElement.textContent = `You previously had ${size} items in your cart`;
+        document.body.appendChild(paragraphElement);
+      }
+      window.addEventListener('load', function () {
+        if (typeof(Storage) !== "undefined") {
+          createStore();
+          displayCart();
+        } else {
+          alert('Sorry, your browser does not support Web storage. Try again with a better one');
+        }
+      });
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
